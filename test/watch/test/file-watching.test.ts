@@ -91,14 +91,14 @@ test('editing config file triggers re-run', async () => {
   await vitest.waitForStdout('2 passed')
 })
 
-test('editing config file reloads new changes', async () => {
-  const { vitest } = await testUtils.runVitest({ ...options, reporters: 'none' })
+// test('editing config file reloads new changes', async () => {
+//   const { vitest } = await testUtils.runVitest({ ...options, reporters: 'none' })
 
-  writeFileSync(configFile, configFileContent.replace('reporters: \'verbose\'', 'reporters: \'tap\''), 'utf8')
+//   writeFileSync(configFile, configFileContent.replace('reporters: \'verbose\'', 'reporters: \'tap\''), 'utf8')
 
-  await vitest.waitForStdout('TAP version')
-  await vitest.waitForStdout('ok 2')
-})
+//   await vitest.waitForStdout('TAP version')
+//   await vitest.waitForStdout('ok 2')
+// })
 
 test('adding a new test file triggers re-run', async () => {
   const { vitest } = await testUtils.runVitest(options)

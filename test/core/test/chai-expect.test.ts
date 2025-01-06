@@ -1,32 +1,8 @@
 /* eslint-disable ts/no-unused-expressions */
 import { describe, expect, it } from 'vitest'
 
-class TestError extends Error {}
-
-// For expect.extend
-interface CustomMatchers<R = unknown> {
-  toBeDividedBy: (divisor: number) => R
-  toBeTestedAsync: () => Promise<R>
-  toBeTestedSync: () => R
-  toBeTestedPromise: () => R
-}
-
-declare module 'vitest' {
-  interface Assertion<T = any> extends CustomMatchers<T> {}
-  interface AsymmetricMatchersContaining extends CustomMatchers {}
-}
-
-declare global {
-  // eslint-disable-next-line ts/no-namespace
-  namespace jest {
-    interface Matchers<R> {
-      toBeJestCompatible: () => R
-    }
-  }
-}
-
 describe('chai-expect', () => {
-  it('equal', () => {
+  it('toBe', () => {
     expect(1).to.equal(1)
     expect(1).not.to.equal(2)
 
@@ -38,7 +14,7 @@ describe('chai-expect', () => {
     expect(stock).not.to.equal({ type: 'apples' })
   })
 
-  it('closeTo', () => {
+  it('toBeCloseTo', () => {
     expect(0.2 + 0.1).to.be.closeTo(0.3, 1)
     expect(2 + 1).not.to.be.closeTo(2, 0.5)
   })
@@ -79,5 +55,36 @@ describe('chai-expect', () => {
     expect('a').to.be.a('string')
     expect(Symbol('a')).to.be.a('symbol')
     expect(undefined).to.be.a('undefined')
+  })
+
+  it('toBeInstanceOf', () => {
+    class Animal {}
+    const animal = new Animal()
+    class Plant {}
+
+    expect(animal).to.be.an.instanceof(Animal)
+    expect(animal).not.to.be.an.instanceof(Plant)
+  })
+
+  it('toBeGreaterThan', () => {
+    expect(2).to.be.above(1)
+    expect(2).not.to.be.above(2)
+  })
+
+  it('toBeGreaterThanOrEqual', () => {
+    expect(2).to.be.least(1)
+    expect(2).to.be.least(2)
+    expect(2).not.to.be.least(3)
+  })
+
+  it('toBeLessThan', () => {
+    expect(1).to.be.below(2)
+    expect(1).not.to.be.below(1)
+  })
+
+  it('toBeLessThanOrEqual', () => {
+    expect(1).to.be.most(2)
+    expect(1).to.be.most(1)
+    expect(2).not.to.be.most(1)
   })
 })
